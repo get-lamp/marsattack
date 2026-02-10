@@ -10,9 +10,9 @@ $(document).ready(function(){
 	var WAVE_SIZE = 3;
 	var FPS = 60;
 	var STARTING_HITS = 5;
-	var missiles = new Array();
-	var martians = new Array();
-	var deadMartians = new Array();
+	var missiles = [];
+	var martians = [];
+	var deadMartians = [];
 	var martianCount = 0;
 	var frames = 0;
 	var hits = STARTING_HITS;
@@ -31,10 +31,7 @@ $(document).ready(function(){
 	var playerHasControl = false;
 	var ego = null;
 	
-		
 
-
-	
 	function blink(elem, speed){
 		return setInterval(function() {
 			if (elem.css('visibility') == 'hidden') {
@@ -46,8 +43,7 @@ $(document).ready(function(){
 	}
 	
 	$('.blink').each(function() {
-		var elem = $(this);
-		blink(elem, 600);
+		blink($(this), 600);
 	});
 	
 
@@ -58,16 +54,10 @@ $(document).ready(function(){
 		$("#wave").html((gameRunning) ? ("WAVE " + wave) : "PAUSE");
 	}
 	
-	function saveScore(){		
-		saveHighScore(score, wave, player);
-	}
-	
-	
 	/* GAMEOVER */
 	function gameover() {		
 		$("#youranked").html(getRank(score));
 		ego.skin.remove();
-		delete ego;
 		$("#gameover").css("display", "block");
 		playerHasControl = false;
 		signPlayer();
@@ -79,7 +69,7 @@ $(document).ready(function(){
 		
 		$('#playerName').change(function() {
 			player = $(this).val();
-			saveScore();
+			saveScore(score, wave, player);
 			$("#player-name").toggle();
 			endGame();
 		});
@@ -100,15 +90,12 @@ $(document).ready(function(){
 				martians[i].skin.remove();
 			}
 		}
-		delete martians;
 		for(i = 0; i < missiles.length; i++) {
 			if(missiles[i]) {
 				missiles[i].skin.remove();
 			}
 		}
-		delete missiles;
 		ego.skin.remove();
-		delete ego;
 
 		martians = new Array();
 		missiles = new Array();
@@ -282,12 +269,10 @@ $(document).ready(function(){
 
 		var sysTime = new Date();
 		this.startTime = sysTime.getTime();
-		delete sysTime;
 
 		this.now = function(){
 			var sysTime = new Date();
 			t = sysTime.getTime();
-			delete sysTime;
 			return t;
 		}
 
@@ -802,7 +787,6 @@ $(document).ready(function(){
 
 			var to = new Date();
 			var startTime = to.getTime();
-			delete to;
 
 			$(".trigger").each(function(index){
 				if(collide($("#ego"), $(this))){
@@ -838,7 +822,6 @@ $(document).ready(function(){
 
 			var tc = new Date();
 			var endTime = tc.getTime();
-			delete tc;
 
 			$("#performance").html("Performance (loop): " + (endTime - startTime) + " ms");
 		}
