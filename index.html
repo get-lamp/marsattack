@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>64k | MARS ATTACK v1.0.0</title>
+		<link rel="stylesheet" href="./css/mars.css"/>
+		<link href='http://fonts.googleapis.com/css?family=Press+Start+2P' rel='stylesheet' type='text/css'>
+		<script src="lib/jquery.js"></script>
+		<script src="src/highscore.js"></script>
+		<script src="src/game.js"></script>
+	</head>
+	<body>		
+		<div role="main" class="center-full-screen">
+			<div id="title-screen">
+				<div>
+					<span style='color: red;'>MARS</span>
+					<span style='color: green;'>ATTACK</span><small>v1.0.0</small>
+				</div>
+				<span class="blink">press X to start</span>				
+				<div id="copyleft">
+					<small>[SPACE] -> HIGH SCORES</small>
+					<a href="#"><img src="./img/64k.png" alt="64k"/></a>
+				</div>
+			</div>	
+			<div id="ranking"></div>
+			<div id="game-screen">
+				<div id="info"></div>			
+				<div id="wave"></div>
+				<div id="b14e62657320818ce2d0b212239fc089fd8a87f4gameover" class="blink center-full-screen">GAME OVER</div>
+				<div id="player-name" class="center-full-screen">
+					YOU RANKED #<span id="youranked"></span><br/><input id='playerName' value='ENTER YOUR NAME'/>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

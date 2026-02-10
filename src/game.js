@@ -30,66 +30,10 @@ $(document).ready(function(){
 	var gameStarted = false;
 	var playerHasControl = false;
 	var ego = null;
-	var xmlHttp = createXML_HTTP();
+	
 		
-	/* AJAX FUNCTIONS */
-	function POSTServer(url, string, xmlHttp, caller) {
-		if ((url == null) || (url == "")) return false;
-		if ((string == null) || (string == "")) return false;
 
-		// Setup a function for the server to run when it's done
-		xmlHttp.onreadystatechange = function (){
-			receiveResponse(caller);
-		}
 
-		// Build the URL to connect to
-		var urlString = string + "&amp;" + "end&" + Math.random();
-
-		// Open a connection to the server
-		xmlHttp.open("POST", url, true);
-
-		// Setup the message headers to be send
-		xmlHttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-		xmlHttp.setRequestHeader("Content-length", urlString.length);
-		xmlHttp.setRequestHeader("Connection", "close");
-		// Send the request
-		xmlHttp.send(urlString);
-	}
-
-	function createXML_HTTP() {
-		var xmlHttp = false;
-		// Tries to create xmlHTTP for Microsoft browsers
-		try {
-			xmlHttp = new ActiveXObject("Msxml2.XMLHTTP");
-		}
-		catch (e) {
-			try {
-				xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
-			}
-			catch (e2)	{
-				xmlHttp = false;
-			}
-		}
-		// Supports all non-Microsoft browsers
-		if (!xmlHttp && typeof XMLHttpRequest != 'undefined') {
-			xmlHttp = new XMLHttpRequest();
-		}
-		return xmlHttp;
-	}
-
-	function receiveResponse(caller) {
-
-		if ((xmlHttp.readyState == 4) && (xmlHttp.status == 200)) {
-
-		if(xmlHttp.responseText.length > 0)
-		document.getElementById(caller).innerHTML=xmlHttp.responseText;
-			else{window.status='Done!';}
-
-			xmlHttp='null';
-			xmlHttp = createXML_HTTP();
-		}
-	}
-	/* END OF BLOCK - AJAX FUNCTIONS */
 	
 	function blink(elem, speed){
 		return setInterval(function() {
@@ -115,17 +59,13 @@ $(document).ready(function(){
 	}
 	
 	function saveScore(){		
-		POSTServer("./hiscore.php", "query=addscore&score=" + score + "&waves=" + wave + "&player=" + player, xmlHttp, "ranking");
+		saveHighScore(score, wave, player);
 	}
 	
-	function showRanking(){
-		POSTServer("./hiscore.php", "query=ranking", xmlHttp, "ranking");
-		$("#ranking").toggle();		
-	}
 	
 	/* GAMEOVER */
 	function gameover() {		
-		POSTServer("./hiscore.php", "query=youranked&score=" + score, xmlHttp, "youranked");
+		$("#youranked").html(getRank(score));
 		ego.skin.remove();
 		delete ego;
 		$("#gameover").css("display", "block");
@@ -204,7 +144,7 @@ $(document).ready(function(){
 			"<div id='score'>SCORE 0</div>" +
 			"<div id='hits'>" + hits + " LIVES LEFT</div></br><div id='live'>" + getLives() + "</div>";
 		$("#info").append(html);
-		POSTServer("./hiscore.php", "query=hiscore", xmlHttp, "hiscore");
+		$("#hiscore").html(getHiScore());
 	}
 
 	function displayTitleScreen(highscore){
