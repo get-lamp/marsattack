@@ -155,11 +155,15 @@ div[role="main"]{
 #copyleft{
 	position: absolute;
 	bottom: 25px;
-	right: 25px;
+	display: flex;
+	justify-content: center; /* Centers horizontally */
+	width: 100%;
 }
 
 #copyleft img{
-	margin: 0 5px 0 5px;
+	position: absolute;
+	right: 50px;
+	bottom: 20px;
 }
 
 
